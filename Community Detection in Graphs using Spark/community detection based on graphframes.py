@@ -21,9 +21,7 @@ if __name__ == '__main__':
 
     power_input = sys.argv[1]
     output_file = sys.argv[2]
-    # power_input = "/Users/swathinayak/PycharmProjects/DataMining-HW4/data/power_input.txt"
-    # output_file = "/Users/swathinayak/PycharmProjects/DataMining-HW4/data/swathi_nayak_task1_community_python.txt"
-
+    
     sc = SparkContext.getOrCreate()
     sqlContext = sql.SQLContext(sc)
 
@@ -45,9 +43,6 @@ if __name__ == '__main__':
 
     file = open(output_file, "w")
     write_to_file(final_result_set)
-
-    # for result in final_result_set:
-    #     print(result)
 
     print(time.time() - start_time)
 

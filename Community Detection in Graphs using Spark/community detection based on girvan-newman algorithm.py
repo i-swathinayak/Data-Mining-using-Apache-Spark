@@ -9,8 +9,6 @@ import sys
 def graph_traversal_bfs(node):
     que = queue.Queue()
     que.put(node)
-    # level[int(node)] = 0
-    # marked[int(node)] = True
     marked = set()
     level_dict = {}
     level_dict[node] = 0
@@ -19,22 +17,15 @@ def graph_traversal_bfs(node):
     while not que.empty():
         x = que.get()
         for b in adjacency_dict[x]:
-            # if not marked[int(b)]:
             if b not in marked:
                 que.put(b)
                 level_dict[b] = level_dict[x] + 1
-                # level[int(b)] = level[int(x)] + 1
                 marked.add(b)
 
     height=max(level_dict.values()) + 1
-    # print(height)
     result = [[] for i in range(height)]
     for node, level in level_dict.items():
         result[level].append(node)
-    # for i in range(1, nodes_count+1):
-    #     if level[i] is not -1:
-    #         result[level[i]].append(str(i))
-    # print(result)
     return result
 
 
@@ -61,40 +52,9 @@ def compute_node_labels(root, bfs_result):
     return shortest_paths_count
 
 
-# def compute_edge_credits(bfs_result, node_labels):
-#     height = len(bfs_result)
-#     edge_credits = dict()
-#
-#     for i in range(height-1, 0, -1):
-#         for node in bfs_result[i]:
-#             if i == (height-1):
-#                 node_value = 1
-#             else:
-#                 children_nodes = set(adjacency_dict[node]).intersection(set(bfs_result[i + 1]))
-#                 credit = 0.0
-#                 for child in children_nodes:
-#                     if node > child:
-#                         credit += edge_credits[(child, node)]
-#                     else:
-#                         credit += edge_credits[(node, child)]
-#                 node_value = 1 + credit
-#             parent_nodes = set(adjacency_dict[node]).intersection(set(bfs_result[i - 1]))
-#             credit = 0.0
-#             for parent in parent_nodes:
-#                 credit += node_labels[parent]
-#             for parent in parent_nodes:
-#                 edge_value = (float(node_labels[parent]) / float(credit)) * float(node_value)
-#                 if parent < node:
-#                     edge_credits[(parent, node)] = edge_value
-#                 else:
-#                     edge_credits[(node, parent)] = edge_value
-#     return edge_credits
-
-
 def compute_partial_betweenness(node):
     bfs_result = graph_traversal_bfs(node)
     shortest_paths = compute_node_labels(node, bfs_result)
-    # edge_credits = compute_edge_credits(bfs_result, node_lables)
 
     height = len(bfs_result)
     edge_credits = dict()
@@ -133,19 +93,6 @@ def write_to_file(result_set, count):
         file.write("\n")
         data = str(result_set[k])[1:-1]
         file.write(data)
-
-
-# def compute_modularity(communities, edges_count, adjacency_dict, degree_dict):
-#     sum = 0.0
-#     denom_factor = 1.0 / float(2 * edges_count)
-#     for community in communities:
-#         node_combinations = combinations(community, 2)
-#         for (node_1, node_2) in node_combinations:
-#             aij = 1 if node_2 in adjacency_dict[node_1] else 0
-#             ki = degree_dict[node_1]
-#             kj = degree_dict[node_2]
-#             sum += (aij - (float(ki*kj*denom_factor)))
-#     return sum * denom_factor
 
 
 def compute_constants(adjacency_dict, adjacency_keys, degree_dict, edges_count):
@@ -195,10 +142,6 @@ if __name__ == '__main__':
     power_input = sys.argv[1]
     output_file_1 = sys.argv[2]
     output_file_2 = sys.argv[3]
-    #
-    # power_input = "/Users/swathinayak/PycharmProjects/DataMining-HW4/data/power_input.txt"
-    # output_file_1 = "/Users/swathinayak/PycharmProjects/DataMining-HW4/data/swathi_nayak_task2_edge_betweenness_python.txt"
-    # output_file_2 = "/Users/swathinayak/PycharmProjects/DataMining-HW4/data/swathi_nayak_task2_community_python.txt"
 
     sc = SparkContext.getOrCreate()
 
@@ -239,8 +182,7 @@ if __name__ == '__main__':
     old_communities_size = len(communities_a)
     max_communities_size = 1
 
-    # print(max_modularity)
-    #
+  
     while old_communities_size < nodes_count:
         max_edge = node_rdd.flatMap(lambda node: compute_partial_betweenness(node[0])).reduceByKey(lambda x, y: x + y).map(lambda v: (v[0], v[1] / 2)).sortBy(lambda x: x[1], ascending=False).take(1)
         node_a = max_edge[0][0][0]
@@ -252,7 +194,6 @@ if __name__ == '__main__':
 
         if current_community_size != old_communities_size:
             current_modularity = compute_modularity(communities, edges_count, adjacency_dict, degree_dict)
-            # print(current_modularity)
 
             if current_modularity > max_modularity:
                 max_modularity = current_modularity
@@ -262,11 +203,6 @@ if __name__ == '__main__':
             if current_community_size == nodes_count:
                 break
             old_communities_size = current_community_size
-        # print(max_modularity)
-    #
-    # print(max_modularity)
-    # print(max_communities_size)
-    # print(max_communities)
 
     final_communities = list()
     for community in max_communities:
