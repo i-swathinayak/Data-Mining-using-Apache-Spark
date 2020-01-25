@@ -121,10 +121,10 @@ object swathi_nayak_task3 {
     val conf: SparkConf = new SparkConf().setAppName("swathi_nayak_task3").setMaster("local")
     val sc = new SparkContext(conf)
     sc.setLogLevel(logLevel = "OFF")
-    val api_key_1 = "ClUcrlPdQSfJ2WQ8O2AYubcYO"
-    val api_key_2 = "87Qzrh3lrukaOjCEaafG7CznzfZ8ggnQeTemNQMCZPu333Q5rQ"
-    val access_token_1 = "1200989670923833344-zCMdKlph30iFBPQB8PAkhg3LGeoqSe"
-    val access_token_2 = "3ZTTJX31bv0YUkU9BAhMrr1Agji0WmYyzi79OZjdZQDBU"
+    val api_key_1 = ****
+    val api_key_2 = ****
+    val access_token_1 = ****
+    val access_token_2 = ****
     System.setProperty("twitter4j.oauth.consumerKey", api_key_1)
     System.setProperty("twitter4j.oauth.consumerSecret", api_key_2)
     System.setProperty("twitter4j.oauth.accessToken", access_token_1)
