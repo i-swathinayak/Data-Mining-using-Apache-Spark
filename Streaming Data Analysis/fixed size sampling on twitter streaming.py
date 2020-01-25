@@ -57,8 +57,8 @@ class TwitterStreamHandler(tweepy.StreamListener):
 
 
 if __name__ == "__main__":
-	api_key = tweepy.OAuthHandler("ClUcrlPdQSfJ2WQ8O2AYubcYO", "87Qzrh3lrukaOjCEaafG7CznzfZ8ggnQeTemNQMCZPu333Q5rQ")
-	api_key.set_access_token("1200989670923833344-zCMdKlph30iFBPQB8PAkhg3LGeoqSe", "3ZTTJX31bv0YUkU9BAhMrr1Agji0WmYyzi79OZjdZQDBU")
+	api_key = tweepy.OAuthHandler(****, ****)
+	api_key.set_access_token(****, ****)
 	tweepy_api = tweepy.API(api_key)
 	reservoir_sampling_handler = TwitterStreamHandler()
 	twitter_stream = tweepy.Stream(auth=tweepy_api.auth, listener=reservoir_sampling_handler)
